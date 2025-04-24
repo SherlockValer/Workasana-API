@@ -12,9 +12,12 @@ const taskSchema = new mongoose.Schema({
     ref: "Team",
     required: true,
   }, // Refers to Team model
-  owners: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Refers to User model (owners)
-  ],
+  owners: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "User",
+    required: true,
+    validate: [(value) => value.length > 0, "At least one owner is required."],
+  }, // Refers to User model (owners)
   tags: [{ type: String }], // Array of tags
   timeToComplete: { type: Number, required: true }, // Number of days to complete the task
   status: {

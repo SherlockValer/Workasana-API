@@ -5,19 +5,20 @@ const {
   updateTask,
   deleteTask,
 } = require("../controllers/tasksController");
+const { protect } = require("../controllers/authController");
 
 const router = express.Router();
 
 // Create a new task
-router.post("/", createTask);
+router.post("/", protect, createTask);
 
 // Get all tasks
 router.get("/", getTask);
 
 // Update a task
-router.post("/:id", updateTask);
+router.post("/:id", protect, updateTask);
 
 // Delete a task
-router.delete("/:id", deleteTask);
+router.delete("/:id", protect, deleteTask);
 
 module.exports = router;

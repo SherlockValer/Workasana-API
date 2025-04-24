@@ -3,6 +3,7 @@ const {
   registerUser,
   userLogin,
   getUserDetails,
+  protect,
 } = require("../controllers/authController");
 
 const router = express.Router();
@@ -14,6 +15,6 @@ router.post("/signup", registerUser);
 router.post("/login", userLogin);
 
 // User details
-router.get("/me", getUserDetails);
+router.get("/me", protect, getUserDetails);
 
 module.exports = router;
