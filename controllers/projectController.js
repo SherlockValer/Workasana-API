@@ -14,7 +14,7 @@ exports.addProject = catchAsync(async (req, res) => {
 
   if (saveProject) {
     res.status(201).json({
-      status: "Success",
+      status: "success",
       data: {
         project: saveProject,
       },
@@ -23,4 +23,15 @@ exports.addProject = catchAsync(async (req, res) => {
 });
 
 // get all projects
-exports.getProjects = catchAsync(async (req, res) => {});
+exports.getProjects = catchAsync(async (req, res) => {
+  const projects = await Project.find();
+
+  if (projects) {
+    res.status(200).json({
+      status: "success",
+      data: {
+        projects,
+      },
+    });
+  }
+});

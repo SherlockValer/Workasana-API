@@ -22,4 +22,15 @@ exports.createTeam = catchAsync(async (req, res) => {
 });
 
 // Get all teams
-exports.getTeams = catchAsync(async (req, res) => {});
+exports.getTeams = catchAsync(async (req, res) => {
+  const teams = await Team.find();
+
+  if (teams) {
+    res.status(200).json({
+      status: "success",
+      data: {
+        teams,
+      },
+    });
+  }
+});
