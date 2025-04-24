@@ -57,6 +57,13 @@ exports.updateTask = catchAsync(async (req, res, next) => {
   const taskID = req.params.id;
   const dataToUpdate = req.body;
 
+  const isTaskCompleted = (await Task.findById(taskID)).status === "Completed";
+  if (isTaskCompleted) {
+    return next(
+      new AppError("Cannot update a task that is already completed.", 400)
+    );
+  }
+
   const task = await Task.findByIdAndUpdate(taskID, dataToUpdate, {
     new: true,
   });

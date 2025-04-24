@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const AppError = require("../services/appError");
 // Task Schema
 const taskSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -28,11 +29,20 @@ const taskSchema = new mongoose.Schema({
   }, // Task status
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
+  closedAt: { type: Date },
 });
 
 // Automatically update the `updatedAt` field whenever the document is updated
-taskSchema.pre("save", function (next) {
-  this.updatedAt = Date.now();
+taskSchema.pre("findOneAndUpdate", async function (next) {
+  const update = this.getUpdate();
+
+  if (update.status === "Completed") {
+    update.closedAt = Date.now();
+  }
+
+  update.updatedAt = Date.now(); // Always update `updatedAt`
+  this.setUpdate(update); // Make sure to apply the modified update
+
   next();
 });
 
