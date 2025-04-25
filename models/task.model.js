@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const AppError = require("../services/appError");
+
 // Task Schema
 const taskSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -32,12 +32,23 @@ const taskSchema = new mongoose.Schema({
   closedAt: { type: Date },
 });
 
+// Pre save middleware
+taskSchema.pre("save", async function (next) {
+  if (this.status === "Completed") {
+    this.closedAt = Date.now();
+    this.timeToComplete = 0;
+  }
+
+  next();
+});
+
 // Automatically update the `updatedAt` field whenever the document is updated
 taskSchema.pre("findOneAndUpdate", async function (next) {
   const update = this.getUpdate();
 
   if (update.status === "Completed") {
     update.closedAt = Date.now();
+    update.timeToComplete = 0;
   }
 
   update.updatedAt = Date.now(); // Always update `updatedAt`
