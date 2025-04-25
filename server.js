@@ -13,6 +13,7 @@ const taskRoutes = require("./routes/taskRoutes");
 const teamRoutes = require("./routes/teamRoutes");
 const projectRoutes = require("./routes/projectRoutes");
 const tagRoutes = require("./routes/tagRoutes");
+const reportRoutes = require("./routes/reportRoutes");
 const { globalErrorHandler } = require("./middlewares/errorMiddleware");
 
 // Authentication API
@@ -29,6 +30,9 @@ app.use("/projects", projectRoutes);
 
 // Tags API
 app.use("/tags", tagRoutes);
+
+// Reports API
+app.use("/report", reportRoutes);
 
 // Global Error handling middleware
 app.use(globalErrorHandler);
