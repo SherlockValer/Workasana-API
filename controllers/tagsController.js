@@ -23,7 +23,7 @@ exports.addTags = catchAsync(async (req, res) => {
 
 // Get Tags
 exports.getTags = catchAsync(async (req, res) => {
-  const tags = await Tag.find();
+  const tags = await Tag.find(req.query);
 
   if (tags) {
     res.status(200).json({

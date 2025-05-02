@@ -25,6 +25,9 @@ exports.lastWeekTasks = catchAsync(async (req, res, next) => {
         count: 1,
       },
     },
+    {
+      $sort: { _id: 1 },
+    },
   ]);
 
   res.status(200).json({
