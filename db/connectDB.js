@@ -4,6 +4,8 @@ require("dotenv").config();
 
 const workasanaURI = process.env.MONGODB;
 
+mongoose.set("bufferCommands", false);
+
 const connectDB = async () => {
   await mongoose
     .connect(workasanaURI, { dbName: "workasana" })
