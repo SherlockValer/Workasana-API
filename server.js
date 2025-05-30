@@ -1,52 +1,58 @@
 // Connect to database
 const { connectDB } = require("./db/connectDB");
-connectDB();
-
-// Import express
 const express = require("express");
-const app = express();
-app.use(express.json());
 
-// Import cors
-const cors = require("cors");
-app.use(cors());
+async function start() {
+  await connectDB();
 
-// Import routes
-const authRoutes = require("./routes/authRoutes");
-const taskRoutes = require("./routes/taskRoutes");
-const teamRoutes = require("./routes/teamRoutes");
-const projectRoutes = require("./routes/projectRoutes");
-const tagRoutes = require("./routes/tagRoutes");
-const reportRoutes = require("./routes/reportRoutes");
-const userRoutes = require("./routes/userRoutes");
-const { globalErrorHandler } = require("./middlewares/errorMiddleware");
+  // Import express
 
-// Authentication API
-app.use("/auth", authRoutes);
+  const app = express();
+  app.use(express.json());
 
-// Tasks API
-app.use("/tasks", taskRoutes);
+  // Import cors
+  const cors = require("cors");
+  app.use(cors());
 
-// Teams API
-app.use("/teams", teamRoutes);
+  // Import routes
+  const authRoutes = require("./routes/authRoutes");
+  const taskRoutes = require("./routes/taskRoutes");
+  const teamRoutes = require("./routes/teamRoutes");
+  const projectRoutes = require("./routes/projectRoutes");
+  const tagRoutes = require("./routes/tagRoutes");
+  const reportRoutes = require("./routes/reportRoutes");
+  const userRoutes = require("./routes/userRoutes");
+  const { globalErrorHandler } = require("./middlewares/errorMiddleware");
 
-// Project API
-app.use("/projects", projectRoutes);
+  // Authentication API
+  app.use("/auth", authRoutes);
 
-// Tags API
-app.use("/tags", tagRoutes);
+  // Tasks API
+  app.use("/tasks", taskRoutes);
 
-// Reports API
-app.use("/report", reportRoutes);
+  // Teams API
+  app.use("/teams", teamRoutes);
 
-// Users API
-app.use("/users", userRoutes);
+  // Project API
+  app.use("/projects", projectRoutes);
 
-// Global Error handling middleware
-app.use(globalErrorHandler);
+  // Tags API
+  app.use("/tags", tagRoutes);
 
-// Start the server
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
-});
+  // Reports API
+  app.use("/report", reportRoutes);
+
+  // Users API
+  app.use("/users", userRoutes);
+
+  // Global Error handling middleware
+  app.use(globalErrorHandler);
+
+  // Start the server
+  const PORT = 3000;
+  app.listen(PORT, () => {
+    console.log(`Server running on ${PORT}`);
+  });
+}
+
+start();
