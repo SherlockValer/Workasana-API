@@ -5,7 +5,7 @@ require("dotenv").config();
 const workasanaURI = process.env.MONGODB;
 
 const connectDB = async () => {
-  mongoose
+  await mongoose
     .connect(workasanaURI, { dbName: "workasana" })
     .then(() => console.log("Connected to Database."))
     .catch((error) => console.log(error));
